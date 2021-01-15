@@ -15,6 +15,7 @@ var counterText = document.getElementById('counter-text');
 var counter = 0;
 var correctAnswers = 0;
 var wrongAnswers = 0;
+var gameWin = false;
 
 counterText.textContent = counter;
 
@@ -24,14 +25,13 @@ btnInc.addEventListener('click', function () {
   checkCounterTens(counter);
 
   resetStateWhenCounterMax();
+  disableDecButtonWhenCounterMax();
 
   counterText.textContent = counter;
 });
 
 btnDec.addEventListener('click', function () {
   counter--;
-
-  disableDecButtonWhenCounterMax();
 
   counterText.textContent = counter;
 
@@ -48,8 +48,8 @@ function resetStateWhenCounterMax() {
 }
 
 function disableDecButtonWhenCounterMax() {
-  if (counter === 100) {
-    btnDec.disabled = true;
+  if (gameWin) {
+    btnDec.style.display = 'none';
   }
 }
 
@@ -78,6 +78,7 @@ function checkCounterTens(counter) {
       wrongText.textContent = '';
       rulesMessage.textContent = '';
       winningMessage.textContent = "you've won the game!".toUpperCase();
+      gameWin = true;
       winningMessage.style.color = 'green';
       return;
     }
@@ -108,6 +109,8 @@ function resetDefaultStyles() {
   counter = 0;
   correctAnswers = 0;
   wrongAnswers = 0;
+  gameWin = false;
+  btnDec.style.display = 'inline';
   winningMessage.textContent =
     'For every 10 points, you must answer a mathematic question, Max is 100';
   correctText.textContent = `Correct answers: ${correctAnswers}`;
